@@ -31,7 +31,9 @@ RUN mkdir -p /app/mmhuman3d/data \
     /app/mmhuman3d/data/checkpoints \
     /app/mmhuman3d/input \
     /app/mmhuman3d/output \
-    /app/mmhuman3d/vis_results 
+    /app/mmhuman3d/vis_results \
+    /app/mmhuman3d/videos/multi_person \
+    /app/mmhuman3d/videos/single_person
 
 RUN wget -O /app/mmhuman3d/data/checkpoints/resnet50_hmr_pw3d.pth https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmhuman3d/models/hmr/resnet50_hmr_pw3d-04f40f58_20211201.pth?versionId=CAEQHhiBgMD6zJfR6xciIDE0ODQ3OGM2OWJjMTRlNmQ5Y2ZjMWZhMzRkOTFiZDFm  
     
