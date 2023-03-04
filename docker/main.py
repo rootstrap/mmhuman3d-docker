@@ -5,11 +5,19 @@ import base64
 import os
 import subprocess
 
+def show_results(input_video, output_video, col1, col2):
+    col1.video(open(input_video, 'rb').read(), format="video/mp4", start_time=0)
+    col2.video(open(output_video, 'rb').read(), format="video/mp4", start_time=0)
+    filename = os.path.basename(output_video)
+    with open(output_video, "rb") as file:
+        btn = col2.download_button(
+            label="Download video",
+            data=file,
+            file_name=filename,
+            mime="video/mp4"
+            )
 
-
-def process_video(filepath, video_option):
-    video_file = open(filepath, 'rb')
-    video_bytes = video_file.read()
+def process_video(filepath, video_option, col1, col2):
     filename = os.path.basename(filepath)
     result_path = f"vis_results/{filename}"
     bashCommand = []
@@ -36,18 +44,7 @@ def process_video(filepath, video_option):
 
     process = subprocess.run(bashCommand)
     if process.returncode==0:
-        col1.video(video_bytes, format="video/mp4", start_time=0)
-        
-        video_file_result = open(result_path, 'rb')
-        video_bytes_result = video_file_result.read()
-        col2.video(video_bytes_result, format="video/mp4", start_time=0)
-        with open(result_path, "rb") as file:
-            btn = col2.download_button(
-                label="Download video",
-                data=file,
-                file_name=filename,
-                mime="video/mp4"
-              )
+        show_results(filepath, result_path, col1, col2)
     else:
         st.error('Error: please try again there has been an error.', icon="🚨")
         print(f'Error: Return code:{process.returncode}')
@@ -69,7 +66,7 @@ SINGLE_PATH = "/app/mmhuman3d/videos/single_person/"
 
 st.set_page_config(layout="wide", page_title="Human3d")
 
-st.write("## Find the 3D Human shape in your video!")
+st.write("## Find the 3D Human shape in your video!\n How to use it?: You can choose a pre-uploaded example or upload your own video.")
 
 st.sidebar.write("## Upload video")
 
@@ -98,8 +95,25 @@ if st.sidebar.button('Start'):
         bytes_data = uploaded_file.read()
         with open(os.path.join(INPUT_PATH,uploaded_file.name),"wb") as f:
             f.write(uploaded_file.getbuffer())
-        process_video(filepath=f"{INPUT_PATH}{uploaded_file.name}", video_option=video_option)
+        process_video(filepath=f"{INPUT_PATH}{uploaded_file.name}", 
+                      video_option=video_option, 
+                      col1=col1, 
+                      col2=col2)
+
     elif option_file!='None' and video_option=='single_person':
-        process_video(filepath=f"{SINGLE_PATH}{option_file}", video_option=video_option)
+        input_path = f"{SINGLE_PATH}{option_file}"
+        result_path = f'/app/mmhuman3d/videos/results/{option_file}'
+        if os.path.exists(result_path):
+            show_results(input_path, result_path, col1, col2)
+        else:
+            process_video(filepath=input_path, video_option=video_option, col1=col1, col2=col2)
+
+        
     elif option_file!='None' and video_option=='multi_person':
-        process_video(filepath=f"{MULTI_PATH}{option_file}", video_option=video_option)
+        input_path = f"{MULTI_PATH}{option_file}"
+        result_path = f'/app/mmhuman3d/videos/results/{option_file}'
+        if os.path.exists(result_path):
+            show_results(input_path, result_path, col1, col2)
+        else:
+            process_video(filepath=input_path, video_option=video_option, col1=col1, col2=col2)
+
