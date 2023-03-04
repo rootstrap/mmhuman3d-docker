@@ -35,6 +35,9 @@ RUN mkdir -p /app/mmhuman3d/data \
     /app/mmhuman3d/videos/multi_person \
     /app/mmhuman3d/videos/single_person
 
+RUN mv demo/resources/multi_person_demo.mp4 videos/multi_person/ \
+    mv demo/resources/single_person_demo.mp4 videos/single_person/
+    
 RUN wget -O /app/mmhuman3d/data/checkpoints/resnet50_hmr_pw3d.pth https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmhuman3d/models/hmr/resnet50_hmr_pw3d-04f40f58_20211201.pth?versionId=CAEQHhiBgMD6zJfR6xciIDE0ODQ3OGM2OWJjMTRlNmQ5Y2ZjMWZhMzRkOTFiZDFm  
     
 COPY basicModel_f_lbs_10_207_0_v1.0.0.pkl /app/mmhuman3d/data/body_models/smpl/SMPL_FEMALE.pkl 

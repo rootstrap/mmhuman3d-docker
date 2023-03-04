@@ -10,7 +10,6 @@ import subprocess
 def process_video(filepath, video_option):
     video_file = open(filepath, 'rb')
     video_bytes = video_file.read()
-    col1.write("Original")
     filename = os.path.basename(filepath)
     result_path = f"vis_results/{filename}"
     bashCommand = []
@@ -38,7 +37,6 @@ def process_video(filepath, video_option):
     process = subprocess.run(bashCommand)
     if process.returncode==0:
         col1.video(video_bytes, format="video/mp4", start_time=0)
-        col2.write("Result")
         
         video_file_result = open(result_path, 'rb')
         video_bytes_result = video_file_result.read()
@@ -87,17 +85,14 @@ files = ('None',) + files
 option_file = st.sidebar.selectbox(
         'Choose video from the list or upload your own video', files)
 
+
 col1, col2 = st.columns(2)
 
 uploaded_file = st.sidebar.file_uploader("Upload a video in mp4 format", type=["mp4"])
 
-if st.button('Start'):
-    print('press button')
-    print(uploaded_file, video_option, option_file)
+
+if st.sidebar.button('Start'):
     if uploaded_file is not None and uploaded_file!='None':
-        print('upload file')
-        st.write(f'Processing {video_options} file {uploaded_file.name}')
-        st.session_state.disabled = True
         remove_files(INPUT_PATH)
         remove_files("/app/mmhuman3d/vis_results/")
         bytes_data = uploaded_file.read()
@@ -105,12 +100,6 @@ if st.button('Start'):
             f.write(uploaded_file.getbuffer())
         process_video(filepath=f"{INPUT_PATH}{uploaded_file.name}", video_option=video_option)
     elif option_file!='None' and video_option=='single_person':
-        print('single_person')
-        st.write(f'Process single_person video {option_file}')
-        st.session_state.disabled = True
         process_video(filepath=f"{SINGLE_PATH}{option_file}", video_option=video_option)
     elif option_file!='None' and video_option=='multi_person':
-        print('multi_person')
-        st.write(f'Process multi_person video {option_file}')
-        st.session_state.disabled = False
         process_video(filepath=f"{MULTI_PATH}{option_file}", video_option=video_option)
