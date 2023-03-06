@@ -22,10 +22,9 @@ Login into ngc:
 ## Running docker container 
 ```bash 
 mkdir vis_results
-docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 -it --rm -v $(pwd)/vis_results:/workspace/mmhuman3d/vis_results -p 8501:8501 nvcr.io/nvidia/pytorch:22.08-py3_mmhuman3d
+mkdir videos 
+docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 -it --rm -v $(pwd)/videos:/app/mmhuman3d/videos -v $(pwd)/vis_results/vis_results:/app/mmhuman3d/vis_results -p 8501:8501 nvcr.io/nvidia/pytorch:22.08-py3_mmhuman3d
 ```
-
-TODO: add volume with videos 
 
 ## Usage 
 Open the browser at ['http://localhost:8501'](http://localhost:8501)
