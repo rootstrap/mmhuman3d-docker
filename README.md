@@ -4,6 +4,8 @@ Docker for mmhuman3d - open-mmlab exposing streamlit a app.
 
 [mmhuman3d](https://github.com/open-mmlab/mmhuman3d) is an Open Source project PyTorch-based the use of 3D human parametric models, it is a part of the OpenMMLab project.
 
+mmhuman3d is a 3D human mesh recovery toolkit which enables the generation of 3D human models from 2D images or videos.
+
 The container can be downloaded at []() or it can modified editing the file [docker/Dockerfile](docker/Dockerfile). 
 
 **mmhuman3d needs GPU for inference**, so you need to support GPU inside your container. 

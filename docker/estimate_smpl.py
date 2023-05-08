@@ -165,7 +165,7 @@ def single_person_with_mmdet(args, frames_iter):
                 with_track_id=False)
         elif mesh_model.cfg.model.type == 'ImageBodyModelEstimator':
             if args.speed_up_type and i % speed_up_interval != 0\
-                 and i <= speed_up_frames:
+                    and i <= speed_up_frames:
                 mesh_results = [{
                     'bbox': np.zeros((5)),
                     'camera': np.zeros((3)),
@@ -338,7 +338,7 @@ def multi_person_with_mmtracking(args, frames_iter):
                 with_track_id=True)
         elif mesh_model.cfg.model.type == 'ImageBodyModelEstimator':
             if args.speed_up_type and i % speed_up_interval != 0\
-                 and i <= speed_up_frames:
+                    and i <= speed_up_frames:
                 mesh_results = []
                 for idx in range(len(result)):
                     mesh_result = result[idx].copy()
